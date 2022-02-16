@@ -1,0 +1,155 @@
+DICDIR=~/.local/dictionaries/
+VERBDIR=$DICDIR/verbs/
+ADJDIR=$DICDIR/adjs/
+PHDIR=$DICDIR/phrases/
+
+if [[ $1 = "verb" ]]
+then
+	if [[ $2 = "a1" ]]
+	then
+		ru=$VERBDIR/a1/ru
+		en=$VERBDIR/a1/en
+	elif [[ $2 = "a2" ]]
+	then
+		ru=$VERBDIR/a2/ru
+		en=$VERBDIR/a2/en
+	elif [[ $2 = "b1" ]]
+	then
+		ru=$VERBDIR/b1/ru
+		en=$VERBDIR/b1/en
+	elif [[ $2 = "b2" ]]
+	then	
+		ru=$VERBDIR/b2/ru
+		en=$VERBDIR/b2/en
+	elif [[ $2 = "c1" ]]
+	then
+		ru=$VERBDIR/c1/ru
+		en=$VERBDIR/c1/en
+	elif [[ $2 = "c2" ]]
+	then
+		ru=$VERBDIR/c2/ru
+		en=$VERBDIR/c2/en
+	else
+		ru=$VERBDIR/ru
+		en=$VERBDIR/en
+	fi
+	BLACK='\033[0;30m'
+	NC='\033[0m'
+
+	ln=$(shuf -i 1-`wc -l $ru| sed "s/ .*$//"` -n 1)
+	ru_verb=$(head $ru -n $ln| tail -1)
+	en_verb=$(head $en -n $ln| tail -1)
+
+	if grep " $ru_verb" $PHDIR/ru > /dev/null 
+	then
+		nph=$(grep " $ru_verb" $PHDIR/ru |wc -l) #Nombre phrases
+		phln=$(shuf -i 1-$nph -n 1) #Id de la random phrase dans grep
+		id_rphrase=$(grep -n " $ru_verb" $PHDIR/ru|head -n $phln|tail -1|sed "s/:.*$//")
+		ru_ph=$(head $PHDIR/ru -n $id_rphrase| tail -1)
+		en_ph=$(head $PHDIR/en -n $id_rphrase| tail -1)
+	else
+		ru_ph="No examples"
+		en_ph=""
+	fi
+
+	printf "$ru_verb\n"
+	printf "Exemple : $ru_ph\n"
+	printf "${BLACK}$en_verb\n"
+	printf "$en_ph ${NC}\n"
+
+elif [[ $1 = "phrase" ]]
+then
+	if [[ $2 = "a1" ]]
+	then
+		ru=$PHDIR/a1/ru
+		en=$PHDIR/a1/en
+	elif [[ $2 = "a2" ]]
+	then
+		ru=$PHDIR/a2/ru
+		en=$PHDIR/a2/en
+	elif [[ $2 = "b1" ]]
+	then
+		ru=$PHDIR/b1/ru
+		en=$PHDIR/b1/en
+	elif [[ $2 = "b2" ]]
+	then
+		ru=$PHDIR/b2/ru
+		en=$PHDIR/b2/en
+	elif [[ $2 = "c1" ]]
+	then
+		ru=$PHDIR/c1/ru
+		en=$PHDIR/c1/en
+	elif [[ $2 = "c2" ]]
+	then
+		ru=$PHDIR/c2/ru
+		en=$PHDIR/c2/en
+	else
+		ru=$PHDIR/ru
+		en=$PHDIR/en
+	fi
+	BLACK='\033[0;30m'
+	NC='\033[0m'
+
+	ln=$(shuf -i 1-`wc -l $ru| sed "s/ .*$//"` -n 1)
+	ru_phrase=$(head $ru -n $ln| tail -1)
+	en_phrase=$(head $en -n $ln| tail -1)
+
+	printf "$ru_phrase\n"
+	printf "${BLACK}$en_phrase ${NC}\n"
+elif [[ $1 = "adj" ]]
+then
+	if [[ $2 = "a1" ]]
+	then
+		ru=$ADJDIR/a1/ru
+		en=$ADJDIR/a1/en
+	elif [[ $2 = "a2" ]]
+	then
+		ru=$ADJDIR/a2/ru
+		en=$ADJDIR/a2/en
+	elif [[ $2 = "b1" ]]
+	then
+		ru=$ADJDIR/b1/ru
+		en=$ADJDIR/b1/en
+	elif [[ $2 = "b2" ]]
+	then	
+		ru=$ADJDIR/b2/ru
+		en=$ADJDIR/b2/en
+	elif [[ $2 = "c1" ]]
+	then
+		ru=$ADJDIR/c1/ru
+		en=$ADJDIR/c1/en
+	elif [[ $2 = "c2" ]]
+	then
+		ru=$ADJDIR/c2/ru
+		en=$ADJDIR/c2/en
+	else
+		ru=$ADJDIR/ru
+		en=$ADJDIR/en
+	fi
+	BLACK='\033[0;30m'
+	NC='\033[0m'
+
+	ln=$(shuf -i 1-`wc -l $ru| sed "s/ .*$//"` -n 1)
+	ru_adj=$(head $ru -n $ln| tail -1)
+	en_adj=$(head $en -n $ln| tail -1)
+
+	if grep " $ru_adj" $PHDIR/ru > /dev/null 
+	then
+		nph=$(grep " $ru_adj" $PHDIR/ru |wc -l) #Nombre phrases
+		phln=$(shuf -i 1-$nph -n 1) #Id de la random phrase dans grep
+		id_rphrase=$(grep -n " $ru_adj" $PHDIR/ru|head -n $phln|tail -1|sed "s/:.*$//")
+		ru_ph=$(head $PHDIR/ru -n $id_rphrase| tail -1)
+		en_ph=$(head $PHDIR/en -n $id_rphrase| tail -1)
+	else
+		ru_ph="No examples"
+		en_ph=""
+	fi
+
+	printf "$ru_adj\n"
+	printf "Exemple : $ru_ph\n"
+	printf "${BLACK}$en_adj\n"
+	printf "$en_ph ${NC}\n"
+else
+	echo "USAGE : rundom [verb/phrase/adj] [a1/a2/b1/b2/c1/c2]"
+fi
+
